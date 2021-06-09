@@ -1,26 +1,38 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <AddTodo @addTodo="addTodos" />
+  <ItemList :todolist="todos" @removeTodo="removeTodoList" @checkTodo="checkTodoList"/>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import AddTodo from './components/AddTodo.vue'
+import ItemList from './components/ItemList.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
-  }
+    AddTodo,
+    ItemList
+  },
+  props: ['todolist'],
+  data() {
+    return {
+      todos: []
+    }
+  },
+  methods: {
+    addTodos(value) {
+      this.todos.push(value)
+    },
+    removeTodoList(key) {
+      this.todos = this.todos.filter((_, index) => index !== key)
+    },
+    checkTodoList(key) {
+      this.todos[key].checked = !this.todos[key].checked
+    }
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+
 </style>
